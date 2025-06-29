@@ -1,11 +1,17 @@
 import { BrowserRouter } from "react-router";
+import AuthLayout from "@/widgets/auth/auth-layout";
 import { ThemeProvider } from "./styles/theme-provider";
+import { ModeToggle } from "./styles/mode-toggle";
+import { ResetPasswordForm } from "@/feature/mail/ui/resetPasswordForm";
 
-export default function App({ children }: { children: React.ReactNode }) {
+export default function App() {
   return (
     <BrowserRouter>
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        {children}
+      <ThemeProvider>
+        {<ModeToggle></ModeToggle>}
+        <AuthLayout>
+          <ResetPasswordForm></ResetPasswordForm>
+        </AuthLayout>
       </ThemeProvider>
     </BrowserRouter>
   );
