@@ -10,7 +10,7 @@ interface AuthApiErrorProps {
   description: string;
   btnTitle: string;
 }
-export default function AuthApiError({
+export function AuthApiError({
   onClose,
   title,
   description,

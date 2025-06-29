@@ -17,6 +17,7 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import { cn } from "@/shared/lib/utils";
 import { useLogin } from "../hooks/useLogin";
+import { Link } from "react-router";
 
 export function LoginForm({
   className,
@@ -56,12 +57,12 @@ export function LoginForm({
                   <FormItem>
                     <FormLabel>
                       {"Password"}
-                      <a
-                        href="#"
+                      <Link
                         className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                        to="/forgot-password"
                       >
-                        Забыли пароль?
-                      </a>
+                        {"Забыли пароль?"}
+                      </Link>
                     </FormLabel>
 
                     <FormControl>
@@ -77,11 +78,11 @@ export function LoginForm({
             </form>
           </Form>
         </CardContent>
-        <CardFooter>
-          {"Нужен аккаунт?"}
-          <a href="#" className="ml-auto hover:underline">
-            Регистрация
-          </a>
+        <CardFooter className="flex justify-between">
+          <span>Нужен аккаунт?</span>
+          <Link className="hover:underline" to={"/register"}>
+            {"Регистрация"}
+          </Link>
         </CardFooter>
       </Card>
     </div>

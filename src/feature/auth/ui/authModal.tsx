@@ -13,7 +13,7 @@ interface AuthModalProps {
   description: string;
   btnTitle: string;
 }
-export default function AuthModal({
+export function AuthModal({
   isOpen,
   onClose,
   title,

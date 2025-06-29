@@ -97,7 +97,7 @@ export function RegisterForm({
         </CardContent>
         <CardFooter className="flex justify-between">
           <span>Уже есть аккаунт?</span>
-          <a href="#" className="text-primary hover:underline">
+          <a href="/login" className="text-primary hover:underline">
             Войти
           </a>
         </CardFooter>

@@ -17,6 +17,7 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import { cn } from "@/shared/lib/utils";
 import useForgotPassword from "../hooks/useForgotPassword";
+import { Link } from "react-router";
 
 export function ForgotPasswordForm({
   className,
@@ -56,9 +57,11 @@ export function ForgotPasswordForm({
           </Form>
         </CardContent>
         <CardFooter>
-          <a href="#" className="hover:underline">
-            Вернуться к авторизации
-          </a>
+          <nav>
+            <Link className="hover:underline" to={"/login"}>
+              {"Вернуться к авторизации"}
+            </Link>
+          </nav>
         </CardFooter>
       </Card>
     </div>
