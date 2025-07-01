@@ -17,19 +17,47 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import { cn } from "@/shared/lib/utils";
 import { useRegister } from "../hooks/useRegister";
-
+import { AuthApiError } from "./authApiError";
+import { AuthModal } from "./authModal";
+import { Link } from "react-router";
+import { BtnLoader } from "./btn-loader";
 export function RegisterForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const { form, onSubmit } = useRegister();
+  const {
+    form,
+    onSubmit,
+    serverError,
+    openModal,
+    setOpenModal,
+    navigate,
+    isLoading,
+  } = useRegister();
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Регистрация</CardTitle>
+          {serverError ? (
+            <AuthApiError
+              title="Произошла ошибка при регистрации"
+              description={serverError}
+            ></AuthApiError>
+          ) : (
+            <CardTitle>Регистрация</CardTitle>
+          )}
         </CardHeader>
+        <AuthModal
+          isOpen={openModal}
+          title="Регистрация успешна!"
+          description="Проверьте почту для подтверждения аккаунта."
+          btnTitle="Ок"
+          onClose={() => {
+            navigate("/login");
+            setOpenModal(false);
+          }}
+        ></AuthModal>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -52,7 +80,7 @@ export function RegisterForm({
               />
               <FormField
                 control={form.control}
-                name="userName"
+                name="name"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Имя пользователя</FormLabel>
@@ -89,17 +117,22 @@ export function RegisterForm({
                   </FormItem>
                 )}
               />
-              <Button size={"lg"} className="w-full mt-4" type="submit">
-                Зарегистрироваться
+              <Button
+                size={"lg"}
+                className="w-full mt-4"
+                type="submit"
+                disabled={isLoading === true}
+              >
+                {isLoading ? <BtnLoader></BtnLoader> : "Зарегистрироваться"}
               </Button>
             </form>
           </Form>
         </CardContent>
         <CardFooter className="flex justify-between">
           <span>Уже есть аккаунт?</span>
-          <a href="/login" className="text-primary hover:underline">
-            Войти
-          </a>
+          <Link className="text-primary hover:underline" to={"/login"}>
+            {"Войти"}
+          </Link>
         </CardFooter>
       </Card>
     </div>

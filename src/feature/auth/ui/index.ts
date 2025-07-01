@@ -1,7 +1,9 @@
 export { LoginForm } from "./login-form";
 export { RegisterForm } from "./register-form";
-export { ForgotPasswordForm } from "./forgotPasswordForm";
-export { ResetPasswordForm } from "./resetPasswordForm";
+export { ForgotPasswordForm } from "./forgotPassword-form";
+export { ResetPasswordForm } from "./resetPassword-form";
 export { AuthLayout } from "./auth-layout";
 export { AuthApiError } from "./authApiError";
 export { AuthModal } from "./authModal";
+export { BtnLoader } from "./btn-loader";
+export { ConfirmEmail } from "./confirmEmail";

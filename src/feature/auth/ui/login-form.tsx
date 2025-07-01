@@ -18,17 +18,26 @@ import { Input } from "@/shared/components/ui/input";
 import { cn } from "@/shared/lib/utils";
 import { useLogin } from "../hooks/useLogin";
 import { Link } from "react-router";
+import { AuthApiError } from "./authApiError";
+import { BtnLoader } from "./btn-loader";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const { form, onSubmit } = useLogin();
+  const { form, onSubmit, serverError, isLoading } = useLogin();
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Войти в ваш аккунт</CardTitle>
+          {serverError ? (
+            <AuthApiError
+              title="Произошла ошибка при авторизации"
+              description={serverError}
+            ></AuthApiError>
+          ) : (
+            <CardTitle>Войти в ваш аккунт</CardTitle>
+          )}
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -72,8 +81,13 @@ export function LoginForm({
                   </FormItem>
                 )}
               />
-              <Button size={"lg"} className="w-full" type="submit">
-                Авторизоваться
+              <Button
+                disabled={isLoading === true}
+                size={"lg"}
+                className="w-full"
+                type="submit"
+              >
+                {isLoading ? <BtnLoader></BtnLoader> : " Авторизоваться"}
               </Button>
             </form>
           </Form>

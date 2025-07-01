@@ -8,7 +8,7 @@ import {
 export const registerSchema = z
   .object({
     email: EmailZodSchema,
-    userName: NameZodSchema,
+    name: NameZodSchema,
     password: PasswordZodSchema,
     confirmPassword: PasswordZodSchema,
   })

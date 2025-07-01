@@ -18,18 +18,46 @@ import { Input } from "@/shared/components/ui/input";
 import { cn } from "@/shared/lib/utils";
 import useForgotPassword from "../hooks/useForgotPassword";
 import { Link } from "react-router";
+import { AuthApiError } from "./authApiError";
+import { AuthModal } from "./authModal";
+import { BtnLoader } from "./btn-loader";
 
 export function ForgotPasswordForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const { form, onSubmit } = useForgotPassword();
+  const {
+    form,
+    onSubmit,
+    serverError,
+    openModal,
+    setOpenModal,
+    navigate,
+    isLoading,
+  } = useForgotPassword();
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Сбросить пароль</CardTitle>
+          {serverError ? (
+            <AuthApiError
+              title="Ошибка при изменении пароля"
+              description={serverError}
+            ></AuthApiError>
+          ) : (
+            <CardTitle>Сбросить пароль</CardTitle>
+          )}
         </CardHeader>
+        <AuthModal
+          isOpen={openModal}
+          title="Запрос отправлен!"
+          description="Проверьте почту для изменения пароля."
+          btnTitle="Ок"
+          onClose={() => {
+            navigate("/login");
+            setOpenModal(false);
+          }}
+        ></AuthModal>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -50,8 +78,13 @@ export function ForgotPasswordForm({
                   </FormItem>
                 )}
               />
-              <Button size={"lg"} className="w-full" type="submit">
-                Сбросить
+              <Button
+                disabled={isLoading}
+                size={"lg"}
+                className="w-full"
+                type="submit"
+              >
+                {isLoading ? <BtnLoader></BtnLoader> : "Сбросить пароль "}
               </Button>
             </form>
           </Form>
