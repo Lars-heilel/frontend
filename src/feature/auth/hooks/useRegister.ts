@@ -1,9 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import {
-  registerSchema,
-  type RegisterFormData,
-} from "../model/schemas/register.schema";
+import { registerSchema, type RegisterFormData } from "../model/schemas/register.schema";
 import { useState } from "react";
 import { AuthApi } from "../model/api/auth.api";
 import { AxiosError } from "axios";

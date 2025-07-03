@@ -1,11 +1,5 @@
 import { Button } from "@/shared/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/shared/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import {
   Form,
   FormControl,
@@ -21,64 +15,52 @@ import { AuthApiError } from "./authApiError";
 import { AuthModal } from "./authModal";
 import { BtnLoader } from "./btn-loader";
 import useResendConfirmation from "../hooks/useResendConfirmationEmail";
+import { FRONTEND_PATHS } from "@/feature/auth/model/const/frontend-path-const";
 
-export function ResendConfirmationEmailForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  const {
-    form,
-    onSubmit,
-    serverError,
-    openModal,
-    setOpenModal,
-    navigate,
-    isLoading,
-  } = useResendConfirmation();
+export function ResendConfirmationEmailForm({ className, ...props }: React.ComponentProps<"div">) {
+  const { form, onSubmit, serverError, openModal, setOpenModal, navigate, isLoading } =
+    useResendConfirmation();
 
   return (
-    <div
-      className={cn("flex flex-col gap-6 max-w-md mx-auto", className)}
-      {...props}
-    >
-      <Card className="shadow-lg border-primary/20">
-        <CardHeader className="text-center">
-          <CardTitle className="flex items-center justify-center gap-2">
-            <span>Повторная отправка подтверждения</span>
+    <div className={cn("mx-auto flex max-w-md flex-col gap-6", className)} {...props}>
+      <Card className='border-primary/20 shadow-lg'>
+        <CardHeader className='text-center'>
+          <CardTitle className='flex items-center justify-center gap-2'>
+            <span>Resend confirmation</span>
           </CardTitle>
         </CardHeader>
 
         <CardContent>
           <AuthModal
             isOpen={openModal}
-            title="Письмо отправлено!"
-            description="Проверьте вашу почту для подтверждения email"
-            btnTitle="Понятно"
+            title='Email sent!'
+            description='Check your email to confirm'
+            btnTitle='OK'
             onClose={() => {
-              navigate("/login");
+              navigate(FRONTEND_PATHS.LOGIN);
               setOpenModal(false);
             }}
           />
 
           {serverError && (
-            <div className="mb-4">
-              <AuthApiError title="Ошибка отправки" description={serverError} />
+            <div className='mb-4'>
+              <AuthApiError title='Sending error' description={serverError} />
             </div>
           )}
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
               <FormField
                 control={form.control}
-                name="email"
+                name='email'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Ваш Email</FormLabel>
+                    <FormLabel>Your Email</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="example@mail.com"
-                        type="email"
-                        autoComplete="email"
+                        placeholder='example@mail.com'
+                        type='email'
+                        autoComplete='email'
                         {...field}
                       />
                     </FormControl>
@@ -87,25 +69,19 @@ export function ResendConfirmationEmailForm({
                 )}
               />
 
-              <Button
-                disabled={isLoading}
-                size="lg"
-                className="w-full"
-                type="submit"
-              >
-                {isLoading ? <BtnLoader /> : "Отправить письмо"}
+              <Button disabled={isLoading} size='lg' className='w-full' type='submit'>
+                {isLoading ? <BtnLoader /> : "Send email"}
               </Button>
             </form>
           </Form>
         </CardContent>
 
-        <CardFooter className="flex flex-col gap-3 pt-0">
-          <Link to="/login" className="text-sm text-primary hover:underline">
-            Вернуться к авторизации
+        <CardFooter className='flex flex-col gap-3 pt-0'>
+          <Link to={FRONTEND_PATHS.LOGIN} className='text-primary text-sm hover:underline'>
+            Back to sign in
           </Link>
-          <p className="text-sm text-muted-foreground mt-2 text-center">
-            Не получили письмо? Проверьте папку "Спам" или запросите повторную
-            отправку
+          <p className='text-muted-foreground mt-2 text-center text-sm'>
+            Didn't receive the email? Check your spam folder or request a new one
           </p>
         </CardFooter>
       </Card>

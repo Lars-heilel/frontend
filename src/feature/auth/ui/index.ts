@@ -7,3 +7,4 @@ export { AuthApiError } from "./authApiError";
 export { AuthModal } from "./authModal";
 export { BtnLoader } from "./btn-loader";
 export { ConfirmEmail } from "./confirmEmail";
+export { ResendConfirmationEmailForm } from "./resendConfirmationEmail-form";

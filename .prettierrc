@@ -1,0 +1,22 @@
+{
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "jsxSingleQuote": true,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "arrowParens": "always",
+  "endOfLine": "auto",
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "overrides": [
+    {
+      "files": "*.{js,jsx,ts,tsx}",
+      "options": {
+        "parser": "typescript",
+        "jsxSingleQuote": true
+      }
+    }
+  ]
+}

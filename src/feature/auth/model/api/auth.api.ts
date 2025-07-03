@@ -1,5 +1,5 @@
 import { api } from "@/shared/api/axios.instance";
-import { AUTH_PATH } from "../const/auth-path-const";
+import { AUTH_PATH } from "../const/backend-path-const";
 import type { RegisterFormData } from "../schemas/register.schema";
 import type { LoginFormData } from "../schemas/login.schema";
 import type { ForgotPasswordFormData } from "../schemas/forgotPassword.schema";
@@ -42,7 +42,7 @@ export const AuthApi = {
       { password: dto.password },
       {
         params: { token: verifyToken },
-      }
+      },
     );
     return response;
   },

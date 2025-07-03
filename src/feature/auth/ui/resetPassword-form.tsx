@@ -1,11 +1,5 @@
 import { Button } from "@/shared/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/shared/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import {
   Form,
   FormControl,
@@ -20,45 +14,57 @@ import useResetPassword from "../hooks/useResetPassword";
 import { AuthApiError } from "./authApiError";
 import { BtnLoader } from "./btn-loader";
 import { Link } from "react-router";
+import { FRONTEND_PATHS } from "@/feature/auth/model/const/frontend-path-const";
+import { AuthModal } from "./authModal";
 
-export function ResetPasswordForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  const { form, onSubmit, serverError, existingToken, isLoading } =
-    useResetPassword();
+export function ResetPasswordForm({ className, ...props }: React.ComponentProps<"div">) {
+  const {
+    form,
+    onSubmit,
+    serverError,
+    existingToken,
+    isLoading,
+    openModal,
+    setOpenModal,
+    navigate,
+    isTokenInvalid,
+  } = useResetPassword();
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      {existingToken ? (
+      <AuthModal
+        isOpen={openModal}
+        title='Email confirmed!'
+        description='You can now sign in to your account'
+        btnTitle='Sign in'
+        onClose={() => {
+          navigate(FRONTEND_PATHS.LOGIN);
+          setOpenModal(false);
+        }}
+      />
+
+      {existingToken && !isTokenInvalid ? (
         <Card>
           <CardHeader>
             {serverError ? (
               <AuthApiError
-                title="Произошла ошибка при сбросе пароля "
+                title='Password reset error occurred'
                 description={serverError}
               ></AuthApiError>
             ) : (
-              <CardTitle>Придумайте пароль</CardTitle>
+              <CardTitle>Create a password</CardTitle>
             )}
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-4"
-              >
+              <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
                 <FormField
                   control={form.control}
-                  name="password"
+                  name='password'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Пароль</FormLabel>
+                      <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="******"
-                          type="password"
-                          {...field}
-                        />
+                        <Input placeholder='******' type='password' {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -66,16 +72,12 @@ export function ResetPasswordForm({
                 />
                 <FormField
                   control={form.control}
-                  name="confirmPassword"
+                  name='confirmPassword'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Подтвердите пароль</FormLabel>
+                      <FormLabel>Confirm password</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="******"
-                          type="password"
-                          {...field}
-                        />
+                        <Input placeholder='******' type='password' {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -83,51 +85,46 @@ export function ResetPasswordForm({
                 />
                 <Button
                   size={"lg"}
-                  className="w-full mt-4"
-                  type="submit"
+                  className='mt-4 w-full'
+                  type='submit'
                   disabled={isLoading === true}
                 >
-                  {isLoading ? <BtnLoader></BtnLoader> : "Сохранить пароль"}
+                  {isLoading ? <BtnLoader></BtnLoader> : "Save password"}
                 </Button>
               </form>
             </Form>
           </CardContent>
-          <CardFooter className="flex justify-between">
-            <span>Уже есть аккаунт?</span>
-            <Link className="text-primary hover:underline" to={"/login"}>
-              {"Вернуться к авторизации"}
+          <CardFooter className='flex justify-between'>
+            <span>Already have an account?</span>
+            <Link className='text-primary hover:underline' to={FRONTEND_PATHS.LOGIN}>
+              {"Back to sign in"}
             </Link>
           </CardFooter>
         </Card>
       ) : (
         <Card>
-          <CardHeader className="text-center">
-            <CardTitle className="text-red-600">
-              Ошибка восстановления пароля
-            </CardTitle>
+          <CardHeader className='text-center'>
+            <CardTitle className='text-red-600'>Password recovery error</CardTitle>
           </CardHeader>
-          <CardContent className="text-center">
-            <div className="flex flex-col items-center space-y-4">
-              <div className="space-y-2">
-                <h3 className="text-lg font-semibol text-red-500">
-                  Токен не обнаружен
-                </h3>
-                <p className="text-sm text-muted-foreground max-w-sm">
-                  Ссылка для восстановления пароля недействительна. Пожалуйста,
-                  запросите новую ссылку.
+          <CardContent className='text-center'>
+            <div className='flex flex-col items-center space-y-4'>
+              <div className='space-y-2'>
+                <h3 className='font-semibol text-lg text-red-500'>Token not found</h3>
+                <p className='text-muted-foreground max-w-sm text-sm'>
+                  The password reset link is invalid. Please request a new one.
                 </p>
               </div>
-              <Button asChild variant="outline" className="mt-2">
-                <Link to="/forgot-password">Запросить новую ссылку</Link>
+              <Button asChild variant='outline' className='mt-2'>
+                <Link to={FRONTEND_PATHS.FORGOT_PASSWORD}>Request new link</Link>
               </Button>
             </div>
           </CardContent>
-          <CardFooter className="flex justify-center">
+          <CardFooter className='flex justify-center'>
             <Link
-              className="text-sm text-primary hover:underline transition-colors"
-              to="/login"
+              className='text-primary text-sm transition-colors hover:underline'
+              to={FRONTEND_PATHS.LOGIN}
             >
-              Вернуться к авторизации
+              Back to sign in
             </Link>
           </CardFooter>
         </Card>

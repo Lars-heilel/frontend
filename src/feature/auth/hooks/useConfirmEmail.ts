@@ -30,12 +30,12 @@ export default function useConfirmEmail() {
       if (response.status === 200) {
         setOpenModal(true);
       } else {
-        setServerError("Не удалось подтвердить email. Попробуйте еще раз.");
+        setServerError("Failed to confirm email. Please try again.");
       }
     } catch (error) {
       setIsTokenInvalid(true);
 
-      let errorMessage = "Произошла неизвестная ошибка";
+      let errorMessage = "An unknown error occurred";
 
       if (error instanceof AxiosError) {
         errorMessage = error.response?.data?.message || errorMessage;

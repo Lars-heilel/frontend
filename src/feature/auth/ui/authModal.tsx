@@ -1,9 +1,5 @@
 import { Button } from "@/shared/components/ui/button";
-import {
-  DialogContent,
-  Dialog,
-  DialogHeader,
-} from "@/shared/components/ui/dialog";
+import { DialogContent, Dialog, DialogHeader } from "@/shared/components/ui/dialog";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 
 interface AuthModalProps {
@@ -13,13 +9,7 @@ interface AuthModalProps {
   description: string;
   btnTitle: string;
 }
-export function AuthModal({
-  isOpen,
-  onClose,
-  title,
-  description,
-  btnTitle,
-}: AuthModalProps) {
+export function AuthModal({ isOpen, onClose, title, description, btnTitle }: AuthModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>

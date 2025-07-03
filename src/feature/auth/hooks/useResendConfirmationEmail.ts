@@ -30,7 +30,7 @@ export default function useResendConfirmation() {
 
       setOpenModal(true);
     } catch (error) {
-      let errorMessage = "Произошла неизвестная ошибка";
+      let errorMessage = "An unknown error occurred";
 
       if (error instanceof AxiosError) {
         errorMessage = error.response?.data?.message || errorMessage;
