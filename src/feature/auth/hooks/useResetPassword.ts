@@ -6,8 +6,8 @@ import {
 } from "../model/schemas/resetPassword.schema";
 import { useNavigate, useSearchParams } from "react-router";
 import { useCallback, useState } from "react";
-import { AxiosError } from "axios";
 import { AuthApi } from "../model/api/auth.api";
+import { handleApiError } from "@/shared/lib/error/error-handler";
 
 export default function useResetPassword() {
   const [searchParams] = useSearchParams();
@@ -28,7 +28,7 @@ export default function useResetPassword() {
     async (data: ResetPasswordFormData) => {
       if (!token) {
         setIsTokenInvalid(true);
-        return;
+        throw new Error("Token not found");
       }
 
       try {
@@ -39,20 +39,10 @@ export default function useResetPassword() {
         if (response.status === 200) {
           setOpenModal(true);
         } else {
-          setServerError("Failed to reset passsord. Please try again.");
+          setServerError("Failed to reset password. Please try again.");
         }
       } catch (error) {
-        setIsTokenInvalid(true);
-
-        let errorMessage = "An unknown error occurred";
-
-        if (error instanceof AxiosError) {
-          errorMessage = error.response?.data?.message || errorMessage;
-        } else if (error instanceof Error) {
-          errorMessage = error.message;
-        }
-
-        setServerError(errorMessage);
+        setServerError(handleApiError(error));
       } finally {
         setIsLoading(false);
       }

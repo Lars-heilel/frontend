@@ -1,11 +1,10 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { cn } from "@/shared/lib/utils";
-import useConfirmEmail from "../hooks/useConfirmEmail";
+import useConfirmEmail from "../../hooks/useConfirmEmail";
 import { Button } from "@/shared/components/ui/button";
-import { BtnLoader } from "./btn-loader";
 import { Link } from "react-router";
-import { AuthModal } from "./authModal";
-import { CheckCircle2, AlertTriangle, RotateCw } from "lucide-react";
+import { AuthModal } from "../auth/elements/authModal";
+import { CheckCircle2, AlertTriangle, RotateCw, Loader2 } from "lucide-react";
 import { FRONTEND_PATHS } from "@/feature/auth/model/const/frontend-path-const";
 
 export function ConfirmEmail({ className, ...props }: React.ComponentProps<"div">) {
@@ -37,7 +36,11 @@ export function ConfirmEmail({ className, ...props }: React.ComponentProps<"div"
         <Card className='border-none shadow-lg'>
           <CardHeader className='text-center'>
             <div className='flex flex-col items-center'>
-              <CheckCircle2 className='text-primary mb-4 h-12 w-12' />
+              {isLoading ? (
+                <Loader2 className='text-primary mb-4 h-12 w-12 animate-spin' />
+              ) : (
+                <CheckCircle2 className='text-primary mb-4 h-12 w-12' />
+              )}
               <CardTitle>Confirm your email</CardTitle>
             </div>
           </CardHeader>
@@ -50,12 +53,16 @@ export function ConfirmEmail({ className, ...props }: React.ComponentProps<"div"
             )}
 
             <p className='text-muted-foreground mb-6'>
-              Click the button below to complete registration
+              {isLoading
+                ? "Verifying your email address..."
+                : "Click the button below to complete registration"}
             </p>
 
-            <Button onClick={onSubmit} size='lg' className='w-full' disabled={isLoading}>
-              {isLoading ? <BtnLoader /> : "Confirm email"}
-            </Button>
+            {!isLoading && (
+              <Button onClick={onSubmit} size='lg' className='w-full'>
+                Confirm email
+              </Button>
+            )}
           </CardContent>
 
           <CardFooter className='flex justify-center pt-0'>

@@ -10,12 +10,12 @@ import {
 } from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
 import { cn } from "@/shared/lib/utils";
-import useResetPassword from "../hooks/useResetPassword";
-import { AuthApiError } from "./authApiError";
-import { BtnLoader } from "./btn-loader";
+import useResetPassword from "../../hooks/useResetPassword";
+import { AuthApiError } from "../auth/elements/authApiError";
+import { BtnLoader } from "../auth/elements/btn-loader";
 import { Link } from "react-router";
 import { FRONTEND_PATHS } from "@/feature/auth/model/const/frontend-path-const";
-import { AuthModal } from "./authModal";
+import { AuthModal } from "../auth/elements/authModal";
 
 export function ResetPasswordForm({ className, ...props }: React.ComponentProps<"div">) {
   const {

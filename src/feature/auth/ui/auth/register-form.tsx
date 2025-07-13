@@ -10,11 +10,11 @@ import {
 } from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
 import { cn } from "@/shared/lib/utils";
-import { useRegister } from "../hooks/useRegister";
-import { AuthApiError } from "./authApiError";
-import { AuthModal } from "./authModal";
+import { useRegister } from "../../hooks/useRegister";
+import { AuthApiError } from "./elements/authApiError";
+import { AuthModal } from "./elements/authModal";
 import { Link } from "react-router";
-import { BtnLoader } from "./btn-loader";
+import { BtnLoader } from "./elements/btn-loader";
 import { FRONTEND_PATHS } from "@/feature/auth/model/const/frontend-path-const";
 
 export function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {

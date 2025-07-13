@@ -5,4 +5,7 @@ export const FRONTEND_PATHS = {
   RESET_PASSWORD: "/reset-password",
   CONFIRM_EMAIL: "/confirm-email",
   RESEND_CONFIRMATION: "/resend-confirmation",
-}; 
+};
+export const FRONTEND_PROTECTED_PATH = {
+  TEST: "/test",
+};

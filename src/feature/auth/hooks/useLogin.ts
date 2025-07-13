@@ -1,12 +1,19 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { LoginSchema, type LoginFormData } from "../model/schemas/login.schema";
+import {
+  LoginResponseSchema,
+  LoginSchema,
+  type LoginFormData,
+} from "../model/schemas/login.schema";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import { AuthApi } from "../model/api/auth.api";
-import { AxiosError } from "axios";
+import { useAuthStore } from "../model/store/authStore";
+import { handleApiError } from "@/shared/lib/error/error-handler";
+import { zodSchemaParser } from "@/shared/lib/zod/zod-shema-parser";
 
 export function useLogin() {
+  const store = useAuthStore((state) => state.setAccessToken);
   const navigate = useNavigate();
   const [serverError, setServerError] = useState<string | null>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -23,15 +30,13 @@ export function useLogin() {
       setIsLoading(true);
       setServerError(null);
       const response = await AuthApi.login(data);
-      console.log(JSON.stringify(response.data));
-      if (response) {
-        setIsLoading(false);
-      }
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        setIsLoading(false);
-        setServerError(error.response?.data.message);
-      }
+      const parseResult = await zodSchemaParser(LoginResponseSchema, response.data);
+      store(parseResult.data.token);
+      navigate(`/test`);
+    } catch (error: unknown) {
+      setServerError(handleApiError(error));
+    } finally {
+      setIsLoading(false);
     }
   }
 

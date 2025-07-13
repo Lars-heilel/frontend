@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { registerSchema, type RegisterFormData } from "../model/schemas/register.schema";
 import { useState } from "react";
 import { AuthApi } from "../model/api/auth.api";
-import { AxiosError } from "axios";
 import { useNavigate } from "react-router";
+import { handleApiError } from "@/shared/lib/error/error-handler";
 
 export function useRegister() {
   const navigate = useNavigate();
@@ -27,14 +27,12 @@ export function useRegister() {
       setServerError(null);
       const response = await AuthApi.register(data);
       if (response) {
-        setIsLoading(false);
         setOpenModal(true);
       }
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        setIsLoading(false);
-        setServerError(error.response?.data.message);
-      }
+    } catch (error: unknown) {
+      setServerError(handleApiError(error));
+    } finally {
+      setIsLoading(false);
     }
   }
 

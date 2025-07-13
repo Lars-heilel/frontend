@@ -11,10 +11,10 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import { cn } from "@/shared/lib/utils";
 import { Link } from "react-router";
-import { AuthApiError } from "./authApiError";
-import { AuthModal } from "./authModal";
-import { BtnLoader } from "./btn-loader";
-import useResendConfirmation from "../hooks/useResendConfirmationEmail";
+import { AuthApiError } from "../auth/elements/authApiError";
+import { AuthModal } from "../auth/elements/authModal";
+import { BtnLoader } from "../auth/elements/btn-loader";
+import useResendConfirmation from "../../hooks/useResendConfirmationEmail";
 import { FRONTEND_PATHS } from "@/feature/auth/model/const/frontend-path-const";
 
 export function ResendConfirmationEmailForm({ className, ...props }: React.ComponentProps<"div">) {

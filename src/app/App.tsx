@@ -1,14 +1,14 @@
 import { BrowserRouter } from "react-router";
 import { ThemeProvider } from "./providers/theme-provider";
-import { AuthRouter } from "./router/auth-router";
 import { ModeToggle } from "@/shared/components/ui/mode-toggle";
+import { AppRouter } from "./router/app-router";
 
 export default function App() {
   return (
     <BrowserRouter>
       <ThemeProvider>
         <ModeToggle></ModeToggle>
-        <AuthRouter></AuthRouter>
+        <AppRouter />
       </ThemeProvider>
     </BrowserRouter>
   );

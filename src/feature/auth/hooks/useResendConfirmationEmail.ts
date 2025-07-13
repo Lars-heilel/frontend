@@ -2,12 +2,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { useState, useCallback } from "react";
-import { AxiosError } from "axios";
 import { AuthApi } from "../model/api/auth.api";
 import {
   resendConfirmationSchema,
   type ResendConfirmationFormData,
 } from "../model/schemas/resendConfirmation.schema";
+import { handleApiError } from "@/shared/lib/error/error-handler";
 
 export default function useResendConfirmation() {
   const navigate = useNavigate();
@@ -25,20 +25,10 @@ export default function useResendConfirmation() {
     try {
       setIsLoading(true);
       setServerError(null);
-
       await AuthApi.resendConfirmationEmail(data.email);
-
       setOpenModal(true);
     } catch (error) {
-      let errorMessage = "An unknown error occurred";
-
-      if (error instanceof AxiosError) {
-        errorMessage = error.response?.data?.message || errorMessage;
-      } else if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-
-      setServerError(errorMessage);
+      setServerError(handleApiError(error));
     } finally {
       setIsLoading(false);
     }

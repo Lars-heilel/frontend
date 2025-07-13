@@ -6,8 +6,8 @@ import {
 } from "../model/schemas/forgotPassword.schema";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import { AxiosError } from "axios";
 import { AuthApi } from "../model/api/auth.api";
+import { handleApiError } from "@/shared/lib/error/error-handler";
 
 export default function useForgotPassword() {
   const navigate = useNavigate();
@@ -25,14 +25,12 @@ export default function useForgotPassword() {
       setServerError(null);
       const response = await AuthApi.forgotPassword(data);
       if (response) {
-        setIsLoading(false);
         setOpenModal(true);
       }
     } catch (error) {
-      if (error instanceof AxiosError) {
-        setIsLoading(false);
-        setServerError(error.response?.data.message);
-      }
+      setServerError(handleApiError(error));
+    } finally {
+      setIsLoading(false);
     }
   }
 

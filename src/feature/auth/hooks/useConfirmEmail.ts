@@ -1,9 +1,11 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { AuthApi } from "../model/api/auth.api";
-import { AxiosError } from "axios";
+import { handleApiError } from "@/shared/lib/error/error-handler";
+import { useAuthStore } from "../model/store/authStore";
 
 export default function useConfirmEmail() {
+  const store = useAuthStore.getState().setAccessToken;
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   const [isTokenInvalid, setIsTokenInvalid] = useState(false);
@@ -11,43 +13,26 @@ export default function useConfirmEmail() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const navigate = useNavigate();
-
   const existingToken = !!token;
 
-  const onSubmit = useCallback(async () => {
+  const onSubmit = async () => {
     if (!token) {
       setIsTokenInvalid(true);
       return;
     }
-
     try {
       setIsLoading(true);
-      setServerError(null);
-      setIsTokenInvalid(false);
-
-      const response = await AuthApi.verifyAccount(token);
-
-      if (response.status === 200) {
+      const res = await AuthApi.verifyAccount(token);
+      if (res) {
+        store(res.data.token);
         setOpenModal(true);
-      } else {
-        setServerError("Failed to confirm email. Please try again.");
       }
-    } catch (error) {
-      setIsTokenInvalid(true);
-
-      let errorMessage = "An unknown error occurred";
-
-      if (error instanceof AxiosError) {
-        errorMessage = error.response?.data?.message || errorMessage;
-      } else if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-
-      setServerError(errorMessage);
+    } catch (error: unknown) {
+      setServerError(handleApiError(error));
     } finally {
       setIsLoading(false);
     }
-  }, [token]);
+  };
 
   return {
     onSubmit,

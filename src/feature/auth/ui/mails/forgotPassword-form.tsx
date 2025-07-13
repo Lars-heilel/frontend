@@ -10,11 +10,11 @@ import {
 } from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
 import { cn } from "@/shared/lib/utils";
-import useForgotPassword from "../hooks/useForgotPassword";
+import useForgotPassword from "../../hooks/useForgotPassword";
 import { Link } from "react-router";
-import { AuthApiError } from "./authApiError";
-import { AuthModal } from "./authModal";
-import { BtnLoader } from "./btn-loader";
+import { AuthApiError } from "../auth/elements/authApiError";
+import { AuthModal } from "../auth/elements/authModal";
+import { BtnLoader } from "../auth/elements/btn-loader";
 import { FRONTEND_PATHS } from "@/feature/auth/model/const/frontend-path-const";
 
 export function ForgotPasswordForm({ className, ...props }: React.ComponentProps<"div">) {
@@ -25,10 +25,7 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
       <Card>
         <CardHeader>
           {serverError ? (
-            <AuthApiError
-              title='Password reset error'
-              description={serverError}
-            ></AuthApiError>
+            <AuthApiError title='Password reset error' description={serverError}></AuthApiError>
           ) : (
             <CardTitle>Reset password</CardTitle>
           )}

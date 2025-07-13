@@ -10,10 +10,10 @@ import {
 } from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
 import { cn } from "@/shared/lib/utils";
-import { useLogin } from "../hooks/useLogin";
+import { useLogin } from "../../hooks/useLogin";
 import { Link } from "react-router";
-import { AuthApiError } from "./authApiError";
-import { BtnLoader } from "./btn-loader";
+import { AuthApiError } from "./elements/authApiError";
+import { BtnLoader } from "./elements/btn-loader";
 import { FRONTEND_PATHS } from "@/feature/auth/model/const/frontend-path-const";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
@@ -23,10 +23,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
       <Card>
         <CardHeader>
           {serverError ? (
-            <AuthApiError
-              title='Login error occurred'
-              description={serverError}
-            ></AuthApiError>
+            <AuthApiError title='Login error occurred' description={serverError}></AuthApiError>
           ) : (
             <CardTitle>Sign in to your account</CardTitle>
           )}
